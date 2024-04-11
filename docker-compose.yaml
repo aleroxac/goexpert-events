@@ -1,0 +1,27 @@
+version: "3"
+
+networks:
+  goexpert-events:
+
+services:
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    restart: always
+    image: rabbitmq:3.13.1-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      start_period: 10s
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - goexpert-events
+        
